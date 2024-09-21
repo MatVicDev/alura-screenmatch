@@ -36,6 +36,7 @@ public class Principal {
                     5 - Buscar série por ator
                     6 - Top 5 séries
                     7 - Buscar séries por categoria
+                    8 - Filtrar séries por temporada e avaliação
                     0 - Sair                                 
                     """;
 
@@ -64,6 +65,9 @@ public class Principal {
                     break;
                 case 7:
                     buscarSeriesPorCategoria();
+                    break;
+                case 8:
+                    filtrarSeriesPorTemporadaEAvaliacao();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -163,5 +167,20 @@ public class Principal {
         List<Serie> series = repository.findByGenero(categoria);
 
         series.forEach(s -> System.out.println(s.getTitulo()));
+    }
+
+    private void filtrarSeriesPorTemporadaEAvaliacao() {
+        System.out.print("Filtrar quantas temporadas? ");
+        var totalTemporadas = leitura.nextInt();
+        leitura.nextLine();
+
+        System.out.print("Digite uma avaliação: ");
+        var avaliacao = leitura.nextDouble();
+        leitura.nextLine();
+
+        List<Serie> series = repository.findByTotalTemporadasLessThanEqualsAndAvaliacaoGreaterThanEqual(totalTemporadas, avaliacao);
+        System.out.println("Séries encontradas: ");
+
+        series.forEach(s -> System.out.println(s.getTitulo() + " - avaliação: " + s.getAvaliacao()));
     }
 }
